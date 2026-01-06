@@ -273,13 +273,13 @@ function App() {
                   </div>
                 </div>
 
-                <div className="shrink-0 px-6 pb-2 pt-2 text-right pointer-events-none">
+                <div className="shrink-0 px-6 pb-1 pt-3 text-right pointer-events-none">
                   <span style={jetBrainsStyle} className="text-[9px] font-bold text-gray-200 uppercase tracking-widest">
                     V6.1.6-STABLE
                   </span>
                 </div>
 
-                <div className="shrink-0 border-2 border-black flex items-center h-14 m-6 mt-0">
+                <div className="shrink-0 border-2 border-black flex items-center h-14 mx-6 mb-6">
                   <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-14 h-full border-r-2 border-black" />
                   <Button onClick={handlePomodoro} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
                     <TomatoIcon className="w-6 h-6" />
