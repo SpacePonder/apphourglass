@@ -284,7 +284,7 @@ function App() {
               </TabsContent>
 
               {/* SNUG HEADERS: Changed pt-6 to pt-2 */}
-              <TabsContent value="projects" className="m-1 px-6 pb-6 pt-0 h-[400px] overflow-y-auto">
+              <TabsContent value="projects" className="m-0 px-6 pb-6 pt-0 h-full overflow-y-auto">
                 <div className="border-b-4 border-black pb-2 mb-4">
                   <h2 style={jetBrainsStyle} className="text-2xl font-bold uppercase tracking-tighter">Project Database</h2>
                 </div>
@@ -308,7 +308,7 @@ function App() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="logs" className="m-0 px-6 pb-6 pt-0 h-[400px] overflow-y-auto">
+              <TabsContent value="logs" className="m-0 px-6 pb-6 pt-0 h-full overflow-y-auto">
                 <div className="border-b-4 border-black pb-2 mb-4">
                   <h2 style={jetBrainsStyle} className="text-2xl font-bold uppercase tracking-tighter">Session Logs</h2>
                 </div>
