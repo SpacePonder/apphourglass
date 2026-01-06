@@ -1,0 +1,40 @@
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+@layer base {
+  * {
+    @apply border-black;
+  }
+  body {
+    @apply bg-white text-black;
+  }
+}
+
+/* Custom Scrollbar to match the theme */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #ffffff; 
+  border-left: 2px solid black;
+}
+::-webkit-scrollbar-thumb {
+  background: #000000; 
+  border: 2px solid white;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333333; 
+}
