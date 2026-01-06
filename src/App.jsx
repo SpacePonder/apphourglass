@@ -311,30 +311,36 @@ function App() {
                 <div className="border-b-4 border-black pb-2 mb-4">
                   <h2 style={jetBrainsStyle} className="text-2xl font-bold uppercase tracking-tighter">Session Logs</h2>
                 </div>
-                <div className="space-y-4">
-                  {Object.entries(groupedLogs).map(([date, dateLogs]) => (
-                    <div key={date}>
-                      <div style={jetBrainsStyle} className="bg-black text-white text-[10px] font-bold px-2 py-1 mb-2 inline-block uppercase">{date}</div>
-                      {dateLogs.map(log => (
-                        <div key={log.id} className="border-2 border-black p-2 mb-2 bg-white relative group">
-                          <div className="flex justify-between font-bold text-sm uppercase">
-                            <span style={jetBrainsStyle}>{log.project}</span>
-                            <span style={jetBrainsStyle}>{log.duration}</span>
+                {logsWithStreaks.length === 0 ? (
+                  <div className="flex items-center justify-center h-64 text-center">
+                    <p style={jetBrainsStyle} className="text-sm uppercase text-gray-500">No session logs yet<br/>Complete a session to start tracking</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {Object.entries(groupedLogs).map(([date, dateLogs]) => (
+                      <div key={date}>
+                        <div style={jetBrainsStyle} className="bg-black text-white text-[10px] font-bold px-2 py-1 mb-2 inline-block uppercase">{date}</div>
+                        {dateLogs.map(log => (
+                          <div key={log.id} className="border-2 border-black p-2 mb-2 bg-white relative group">
+                            <div className="flex justify-between font-bold text-sm uppercase">
+                              <span style={jetBrainsStyle}>{log.project}</span>
+                              <span style={jetBrainsStyle}>{log.duration}</span>
+                            </div>
+                            <div style={jetBrainsStyle} className="text-[10px] uppercase mt-1 flex items-center gap-2">
+                              <span className={cn("px-1.5 py-0.5 border border-black font-bold", log.type === 'POMODORO SESSION' ? "bg-black text-white" : "bg-white text-black")}>
+                                {log.type}
+                              </span>
+                              <span className="text-gray-500">{log.startTime}</span>
+                            </div>
+                            <Button variant="ghost" size="icon" className="absolute -top-2 -right-2 bg-white border border-black rounded-full opacity-0 group-hover:opacity-100 h-6 w-6" onClick={() => deleteLog(log.id)}>
+                              <Trash2 className="w-3 h-3" />
+                            </Button>
                           </div>
-                          <div style={jetBrainsStyle} className="text-[10px] uppercase mt-1 flex items-center gap-2">
-                            <span className={cn("px-1.5 py-0.5 border border-black font-bold", log.type === 'POMODORO SESSION' ? "bg-black text-white" : "bg-white text-black")}>
-                              {log.type}
-                            </span>
-                            <span className="text-gray-500">{log.startTime}</span>
-                          </div>
-                          <Button variant="ghost" size="icon" className="absolute -top-2 -right-2 bg-white border border-black rounded-full opacity-0 group-hover:opacity-100 h-6 w-6" onClick={() => deleteLog(log.id)}>
-                            <Trash2 className="w-3 h-3" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </TabsContent>
             </div>
           </Tabs>
