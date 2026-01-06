@@ -233,61 +233,62 @@ function App() {
             </TabsList>
 
             <div className="flex-1 overflow-hidden relative">
-              <TabsContent value="timer" className="h-full m-0 p-6 flex flex-col gap-[14px] pb-8 relative mb-2">
-                <div className="border-2 border-black p-3 shrink-0">
-                  <label style={jetBrainsStyle} className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-500">Target Protocol</label>
-                  <Select value={selectedProject} onValueChange={setSelectedProject}>
-                    <SelectTrigger className="w-full h-10 border-2 border-black rounded-none shadow-none focus:ring-0">
-                      <div className="flex items-center gap-3">
-                        <div className="p-1 bg-black text-white"><CurrentProjectIcon className="w-3 h-3" /></div>
-                        <span style={jetBrainsStyle} className="font-bold text-sm uppercase truncate">{currentProjectObj.name}</span>
-                      </div>
-                    </SelectTrigger>
-                    <SelectContent className="border-2 border-black rounded-none shadow-none bg-white max-h-[300px] z-[100]">
-                      {projects.map(p => {
-                        const Icon = ICON_MAP[p.icon] || Folder;
-                        return (
-                          <SelectItem key={p.id} value={p.name} className="uppercase font-bold cursor-pointer">
-                            <div className="flex items-center gap-2"><Icon className="w-4 h-4" /><span style={jetBrainsStyle}>{p.name}</span></div>
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="border-2 border-black p-3 flex flex-col shrink-0">
-                  <label style={jetBrainsStyle} className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-500">Session Data</label>
-                  <Textarea 
-                    value={notes} 
-                    onChange={e => setNotes(e.target.value)} 
-                    style={jetBrainsStyle}
-                    className="w-full border-2 border-black rounded-none resize-none text-xs h-24 p-2 focus-visible:ring-0 shadow-none" 
-                    placeholder="[INSERT NOTES]" 
-                  />
-                </div>
-
-                <div className="text-center h-8 shrink-0 flex items-center justify-center">
-                  {notification && <span style={jetBrainsStyle} className="text-xs font-bold uppercase bg-black text-white px-3 py-1">{notification}</span>}
-                </div>
-
-                <div className="mt-auto">
-                  <div className="text-right pr-2 mb-2 pointer-events-none">
-                    <span style={jetBrainsStyle} className="text-[9px] font-bold text-gray-200 uppercase tracking-widest">
-                      V6.1.6-STABLE
-                    </span>
+              <TabsContent value="timer" className="h-full m-0 p-0 flex flex-col relative">
+                <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-[14px]">
+                  <div className="border-2 border-black p-3 shrink-0">
+                    <label style={jetBrainsStyle} className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-500">Target Protocol</label>
+                    <Select value={selectedProject} onValueChange={setSelectedProject}>
+                      <SelectTrigger className="w-full h-10 border-2 border-black rounded-none shadow-none focus:ring-0">
+                        <div className="flex items-center gap-3">
+                          <div className="p-1 bg-black text-white"><CurrentProjectIcon className="w-3 h-3" /></div>
+                          <span style={jetBrainsStyle} className="font-bold text-sm uppercase truncate">{currentProjectObj.name}</span>
+                        </div>
+                      </SelectTrigger>
+                      <SelectContent className="border-2 border-black rounded-none shadow-none bg-white max-h-[300px] z-[100]">
+                        {projects.map(p => {
+                          const Icon = ICON_MAP[p.icon] || Folder;
+                          return (
+                            <SelectItem key={p.id} value={p.name} className="uppercase font-bold cursor-pointer">
+                              <div className="flex items-center gap-2"><Icon className="w-4 h-4" /><span style={jetBrainsStyle}>{p.name}</span></div>
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <div className="border-2 border-black flex items-center shrink-0 h-14">
-                    <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-14 h-full border-r-2 border-black" />
-                    <Button onClick={handlePomodoro} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
-                      <TomatoIcon className="w-6 h-6" />
-                    </Button>
-                    <Button onClick={handleInfinite} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
-                      <InfinityIcon className="w-6 h-6" />
-                    </Button>
-                    <div style={jetBrainsStyle} className="flex-1 flex items-center justify-center font-bold text-3xl tracking-widest">
-                      {formatTime(timeLeft)}
-                    </div>
+
+                  <div className="border-2 border-black p-3 flex flex-col shrink-0">
+                    <label style={jetBrainsStyle} className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-500">Session Data</label>
+                    <Textarea
+                      value={notes}
+                      onChange={e => setNotes(e.target.value)}
+                      style={jetBrainsStyle}
+                      className="w-full border-2 border-black rounded-none resize-none text-xs h-24 p-2 focus-visible:ring-0 shadow-none"
+                      placeholder="[INSERT NOTES]"
+                    />
+                  </div>
+
+                  <div className="text-center h-8 shrink-0 flex items-center justify-center">
+                    {notification && <span style={jetBrainsStyle} className="text-xs font-bold uppercase bg-black text-white px-3 py-1">{notification}</span>}
+                  </div>
+                </div>
+
+                <div className="shrink-0 px-6 pb-2 pt-2 text-right pointer-events-none">
+                  <span style={jetBrainsStyle} className="text-[9px] font-bold text-gray-200 uppercase tracking-widest">
+                    V6.1.6-STABLE
+                  </span>
+                </div>
+
+                <div className="shrink-0 border-2 border-black flex items-center h-14 m-6 mt-0">
+                  <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-14 h-full border-r-2 border-black" />
+                  <Button onClick={handlePomodoro} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
+                    <TomatoIcon className="w-6 h-6" />
+                  </Button>
+                  <Button onClick={handleInfinite} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
+                    <InfinityIcon className="w-6 h-6" />
+                  </Button>
+                  <div style={jetBrainsStyle} className="flex-1 flex items-center justify-center font-bold text-3xl tracking-widest">
+                    {formatTime(timeLeft)}
                   </div>
                 </div>
               </TabsContent>
