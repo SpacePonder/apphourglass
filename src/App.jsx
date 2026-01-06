@@ -277,15 +277,14 @@ function App() {
                 </div>
 
                 <div className="absolute bottom-1 right-2 pointer-events-none">
-                  <span style={jetBrainsStyle} className="text-[9px] font-bold text-gray-800 uppercase tracking-widest">
+                  <span style={jetBrainsStyle} className="text-[9px] font-bold text-gray-200 uppercase tracking-widest">
                     V6.1.6-STABLE
                   </span>
                 </div>
               </TabsContent>
 
-              {/* SNUG HEADERS: Changed pt-6 to pt-2 */}
-              <TabsContent value="projects" className="m-0 px-6 pb-6 pt-0 h-full overflow-y-auto">
-                <div className="border-b-4 border-black pb-2 mb-4">
+              <TabsContent value="projects" className="m-0 px-6 pb-6 pt-0 h-[400px] overflow-y-auto">
+                <div className="border-b-4 border-black pb-2 mb-4 mt-6">
                   <h2 style={jetBrainsStyle} className="text-2xl font-bold uppercase tracking-tighter">Project Database</h2>
                 </div>
                 <div className="flex gap-2 mb-4">
@@ -308,8 +307,8 @@ function App() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="logs" className="m-0 px-6 pb-6 pt-0 h-full overflow-y-auto">
-                <div className="border-b-4 border-black pb-2 mb-4">
+              <TabsContent value="logs" className="m-0 px-6 pb-6 pt-0 h-[400px] overflow-y-auto">
+                <div className="border-b-4 border-black pb-2 mb-4 mt-6">
                   <h2 style={jetBrainsStyle} className="text-2xl font-bold uppercase tracking-tighter">Session Logs</h2>
                 </div>
                 <div className="space-y-4">
