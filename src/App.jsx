@@ -36,34 +36,6 @@ const DEFAULT_PROJECTS = [
 
 const POMODORO_DURATION = 25 * 60;
 
-const generatePlaceholderLogs = () => {
-  const logs = [];
-  const now = new Date();
-  const projects = DEFAULT_PROJECTS.map(p => p.name);
-  for (let i = 0; i < 120; i++) {
-    const daysAgo = Math.floor(Math.random() * 60);
-    const date = new Date(now);
-    date.setDate(date.getDate() - daysAgo);
-    const isPomo = Math.random() > 0.3;
-    const durationSecs = isPomo ? 25 * 60 : Math.floor(Math.random() * 3000 + 600);
-    const mins = Math.floor(durationSecs / 60);
-    const secs = durationSecs % 60;
-    const hour = Math.floor(Math.random() * 12) + 9;
-    const minute = Math.floor(Math.random() * 60);
-    logs.push({
-      id: Date.now() - i * 10000,
-      project: projects[Math.floor(Math.random() * projects.length)],
-      type: isPomo ? 'Pomodoro session' : 'Infinite session',
-      startTime: `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`,
-      duration: `${mins}:${secs.toString().padStart(2, '0')}`,
-      date: date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-      timestamp: date.getTime(),
-      notes: Math.random() > 0.7 ? "Session notes placeholder..." : ""
-    });
-  }
-  return logs.sort((a, b) => b.timestamp - a.timestamp);
-};
-
 const TomatoIcon = ({ className }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <path d="M12 5c-5.5 0-10 3.6-10 8 0 4.4 4.5 8 10 8s10-3.6 10-8c0-4.4-4.5-8-10-8z" />
@@ -99,8 +71,8 @@ function App() {
       try {
         const parsed = JSON.parse(savedLogs);
         if (Array.isArray(parsed)) setLogs(parsed);
-      } catch (e) { setLogs(generatePlaceholderLogs()); }
-    } else { setLogs(generatePlaceholderLogs()); }
+      } catch (e) { setLogs([]); }
+    }
   }, []);
 
   useEffect(() => {
@@ -122,10 +94,33 @@ function App() {
     setTimeout(() => setNotification(null), 3000);
   };
 
+  const saveLog = (typeToSave) => {
+    if (sessionStartTime) {
+      const durationSecs = typeToSave === 'infinite' ? timeLeft : POMODORO_DURATION - timeLeft;
+      if (durationSecs >= 5) {
+        const newLog = {
+          id: Date.now(),
+          project: selectedProject,
+          type: typeToSave === 'pomodoro' ? 'POMODORO SESSION' : 'INFINITE SESSION',
+          startTime: sessionStartTime.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+          duration: formatTime(durationSecs),
+          date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+          timestamp: Date.now(),
+          notes: notes
+        };
+        const updatedLogs = [newLog, ...logs];
+        setLogs(updatedLogs);
+        localStorage.setItem('pomodoroLogs', JSON.stringify(updatedLogs));
+        setNotes('');
+      }
+    }
+  };
+
   const handleTimerComplete = () => {
+    const currentType = sessionType;
+    saveLog(currentType); 
     setIsRunning(false);
-    saveLog();
-    setTimeLeft(sessionType === 'pomodoro' ? POMODORO_DURATION : 0);
+    setTimeLeft(currentType === 'pomodoro' ? POMODORO_DURATION : 0);
     setSessionStartTime(null);
     showNotification("SESSION COMPLETE");
   };
@@ -144,7 +139,7 @@ function App() {
     let lastPomoDate = null;
     const streakMap = {};
     sortedAsc.forEach(log => {
-      if (log.type !== 'Pomodoro session') { streakMap[log.id] = 0; return; }
+      if (log.type !== 'POMODORO SESSION') { streakMap[log.id] = 0; return; }
       const logDate = new Date(log.timestamp);
       logDate.setHours(0,0,0,0);
       if (!lastPomoDate) { currentStreak = 1; } 
@@ -178,28 +173,6 @@ function App() {
     setSessionType('infinite');
     setIsRunning(false);
     setTimeLeft(0);
-  };
-
-  const saveLog = () => {
-    if (sessionStartTime) {
-      const durationSecs = sessionType === 'infinite' ? timeLeft : POMODORO_DURATION - timeLeft;
-      if (durationSecs >= 10) {
-        const newLog = {
-          id: Date.now(),
-          project: selectedProject,
-          type: sessionType === 'pomodoro' ? 'Pomodoro session' : 'Infinite session',
-          startTime: sessionStartTime.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
-          duration: formatTime(durationSecs),
-          date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-          timestamp: Date.now(),
-          notes: notes
-        };
-        const updatedLogs = [newLog, ...logs];
-        setLogs(updatedLogs);
-        localStorage.setItem('pomodoroLogs', JSON.stringify(updatedLogs));
-        setNotes('');
-      }
-    }
   };
 
   const addProject = () => {
@@ -236,7 +209,7 @@ function App() {
     <>
       <Helmet><title>POMODORO OS</title></Helmet>
       <div className="min-h-screen bg-white text-black flex items-center justify-center p-4 font-mono overflow-hidden">
-        <div className="w-full max-w-[360px] aspect-[9/16] border-4 border-black bg-white flex flex-col relative overflow-hidden">
+        <div className="w-full max-w-[360px] h-fit border-4 border-black bg-white flex flex-col relative overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex flex-col h-full">
             <TabsList className="grid w-full grid-cols-3 bg-transparent border-b-2 border-black h-14 shrink-0">
               {['timer', 'logs', 'projects'].map(tab => (
@@ -244,7 +217,7 @@ function App() {
                   key={tab} 
                   value={tab} 
                   style={jetBrainsStyle} 
-                  className="h-full uppercase font-bold text-sm data-[state=active]:bg-black data-[state=active]:text-white rounded-none border-r-2 last:border-r-0 border-black"
+                  className="h-full uppercase font-bold text-sm data-[state=active]:bg-black data-[state=active]:text-white rounded-none border-r-2 last:border-r-0 border-black transition-none"
                 >
                   {tab}
                 </TabsTrigger>
@@ -252,7 +225,7 @@ function App() {
             </TabsList>
 
             <div className="flex-1 overflow-hidden relative">
-              <TabsContent value="timer" className="h-full m-0 p-6 flex flex-col gap-4">
+              <TabsContent value="timer" className="h-full m-0 p-6 flex flex-col gap-4 pb-8 relative">
                 <div className="border-2 border-black p-3 shrink-0">
                   <label style={jetBrainsStyle} className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-500">Target Protocol</label>
                   <Select value={selectedProject} onValueChange={setSelectedProject}>
@@ -266,7 +239,7 @@ function App() {
                       {projects.map(p => {
                         const Icon = ICON_MAP[p.icon] || Folder;
                         return (
-                          <SelectItem key={p.id} value={p.name} className="uppercase font-bold">
+                          <SelectItem key={p.id} value={p.name} className="uppercase font-bold cursor-pointer">
                             <div className="flex items-center gap-2"><Icon className="w-4 h-4" /><span style={jetBrainsStyle}>{p.name}</span></div>
                           </SelectItem>
                         );
@@ -288,10 +261,10 @@ function App() {
 
                 <div className="border-2 border-black flex items-center shrink-0 h-14">
                   <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-14 h-full border-r-2 border-black" />
-                  <Button onClick={handlePomodoro} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
+                  <Button onClick={handlePomodoro} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
                     <TomatoIcon className="w-6 h-6" />
                   </Button>
-                  <Button onClick={handleInfinite} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
+                  <Button onClick={handleInfinite} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
                     <InfinityIcon className="w-6 h-6" />
                   </Button>
                   <div style={jetBrainsStyle} className="flex-1 flex items-center justify-center font-bold text-3xl tracking-widest">
@@ -302,27 +275,28 @@ function App() {
                 <div className="text-center h-8 shrink-0 flex items-center justify-center">
                   {notification && <span style={jetBrainsStyle} className="text-xs font-bold uppercase bg-black text-white px-3 py-1">{notification}</span>}
                 </div>
+
+                <div className="absolute bottom-1 right-2 pointer-events-none">
+                  <span style={jetBrainsStyle} className="text-[9px] font-bold text-gray-800 uppercase tracking-widest">
+                    V6.1.6-STABLE
+                  </span>
+                </div>
               </TabsContent>
 
-              <TabsContent value="projects" className="h-full overflow-y-auto p-6 absolute inset-0">
+              {/* SNUG HEADERS: Changed pt-6 to pt-2 */}
+              <TabsContent value="projects" className="m-1 px-6 pb-6 pt-0 h-[400px] overflow-y-auto">
                 <div className="border-b-4 border-black pb-2 mb-4">
                   <h2 style={jetBrainsStyle} className="text-2xl font-bold uppercase tracking-tighter">Project Database</h2>
                 </div>
                 <div className="flex gap-2 mb-4">
-                  <Input 
-                    value={newProjectName} 
-                    onChange={e => setNewProjectName(e.target.value)} 
-                    style={jetBrainsStyle}
-                    placeholder="NEW PROJECT..." 
-                    className="border-2 border-black rounded-none font-bold" 
-                  />
-                  <Button onClick={addProject} className="bg-black text-white rounded-none"><Plus /></Button>
+                  <Input value={newProjectName} onChange={e => setNewProjectName(e.target.value)} style={jetBrainsStyle} placeholder="NEW PROJECT..." className="border-2 border-black rounded-none font-bold" />
+                  <Button onClick={addProject} className="bg-black text-white rounded-none shrink-0"><Plus /></Button>
                 </div>
                 <div className="space-y-2">
                   {projects.map(p => {
                     const Icon = ICON_MAP[p.icon] || Folder;
                     return (
-                      <div key={p.id} className="border-2 border-black p-3 flex justify-between items-center font-bold uppercase">
+                      <div key={p.id} className="border-2 border-black p-3 flex justify-between items-center font-bold uppercase bg-white">
                         <div className="flex items-center gap-4">
                           <Icon className="w-5 h-5" />
                           <span style={jetBrainsStyle}>{p.name}</span>
@@ -334,7 +308,7 @@ function App() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="logs" className="h-full overflow-y-auto p-6 absolute inset-0">
+              <TabsContent value="logs" className="m-0 px-6 pb-6 pt-0 h-[400px] overflow-y-auto">
                 <div className="border-b-4 border-black pb-2 mb-4">
                   <h2 style={jetBrainsStyle} className="text-2xl font-bold uppercase tracking-tighter">Session Logs</h2>
                 </div>
@@ -348,7 +322,12 @@ function App() {
                             <span style={jetBrainsStyle}>{log.project}</span>
                             <span style={jetBrainsStyle}>{log.duration}</span>
                           </div>
-                          <div style={jetBrainsStyle} className="text-[10px] text-gray-500 uppercase">{log.startTime} | {log.type}</div>
+                          <div style={jetBrainsStyle} className="text-[10px] uppercase mt-1 flex items-center gap-2">
+                            <span className={cn("px-1.5 py-0.5 border border-black font-bold", log.type === 'POMODORO SESSION' ? "bg-black text-white" : "bg-white text-black")}>
+                              {log.type}
+                            </span>
+                            <span className="text-gray-500">{log.startTime}</span>
+                          </div>
                           <Button variant="ghost" size="icon" className="absolute -top-2 -right-2 bg-white border border-black rounded-full opacity-0 group-hover:opacity-100 h-6 w-6" onClick={() => deleteLog(log.id)}>
                             <Trash2 className="w-3 h-3" />
                           </Button>
