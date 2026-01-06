@@ -72,6 +72,14 @@ function App() {
         const parsed = JSON.parse(savedLogs);
         if (Array.isArray(parsed)) setLogs(parsed);
       } catch (e) { setLogs([]); }
+    } else {
+      const sampleLogs = [
+        { id: 1704067500000, project: 'Gaming', type: 'INFINITE SESSION', startTime: '12:45', duration: '0:05', date: '02/01/2025', timestamp: 1704067500000, notes: '' },
+        { id: 1704068000000, project: 'Gaming', type: 'INFINITE SESSION', startTime: '13:00', duration: '0:32', date: '02/01/2025', timestamp: 1704068000000, notes: '' },
+        { id: 1704069000000, project: 'Administrative', type: 'POMODORO SESSION', startTime: '13:30', duration: '25:00', date: '02/01/2025', timestamp: 1704069000000, notes: '' },
+        { id: 1703980800000, project: 'Space Science Lab', type: 'POMODORO SESSION', startTime: '10:00', duration: '25:00', date: '01/01/2025', timestamp: 1703980800000, notes: '' }
+      ];
+      setLogs(sampleLogs);
     }
   }, []);
 
