@@ -1,26 +1,23 @@
-
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: 'JetBrains Mono', monospace;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #ffffff;
-  color: #000000;
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+/* The Nuclear Option: Target every possible part of the tab system */
+:root, body, * {
+  font-family: 'JetBrains Mono', monospace !important;
 }
 
-@layer base {
-  * {
-    @apply border-black;
-  }
-  body {
-    @apply bg-white text-black;
-  }
+/* Specifically target the Tab triggers and their internal states */
+[role="tab"], 
+[data-state], 
+.tabs-trigger,
+button {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
 }
 
 /* Custom Scrollbar to match the theme */
@@ -29,7 +26,7 @@ body {
 }
 ::-webkit-scrollbar-track {
   background: #ffffff; 
-  border-left: 2px solid black;
+  border-left: 2px solid #1c1c1c;
 }
 ::-webkit-scrollbar-thumb {
   background: #000000; 
