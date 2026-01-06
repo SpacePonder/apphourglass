@@ -220,11 +220,11 @@ function App() {
         <div className="w-full max-w-[360px] h-fit border-4 border-black bg-white flex flex-col relative overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex flex-col h-full">
             <TabsList className="grid w-full grid-cols-3 bg-transparent border-b-2 border-black h-14 shrink-0">
-              {['timer', 'logs', 'projects'].map(tab => (
-                <TabsTrigger 
-                  key={tab} 
-                  value={tab} 
-                  style={jetBrainsStyle} 
+              {['Timer', 'Logs', 'Projects'].map(tab => (
+                <TabsTrigger
+                  key={tab.toLowerCase()}
+                  value={tab.toLowerCase()}
+                  style={jetBrainsStyle}
                   className="h-full uppercase font-bold text-sm data-[state=active]:bg-black data-[state=active]:text-white rounded-none border-r-2 last:border-r-0 border-black transition-none"
                 >
                   {tab}
