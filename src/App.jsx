@@ -220,7 +220,7 @@ function App() {
         <div className="w-full max-w-[360px] h-fit border-4 border-black bg-white flex flex-col relative overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex flex-col h-full">
             <TabsList className="grid w-full grid-cols-3 bg-transparent border-b-2 border-black h-14 shrink-0">
-              {['Timer', 'Logs', 'Projects'].map(tab => (
+              {['Timer', 'Logs', 'Proj'].map(tab => (
                 <TabsTrigger
                   key={tab.toLowerCase()}
                   value={tab.toLowerCase()}
@@ -236,7 +236,7 @@ function App() {
               <TabsContent value="timer" className="h-full m-0 p-0 flex flex-col relative">
                 <div className="flex-1 overflow-y-auto px-4 py-6 flex flex-col gap-[14px]">
                   <div className="border-2 border-black p-3 shrink-0">
-                    <label style={jetBrainsStyle} className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-500">Target Protocol</label>
+                    <label style={jetBrainsStyle} className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-500">Proj</label>
                     <Select value={selectedProject} onValueChange={setSelectedProject}>
                       <SelectTrigger className="w-full h-10 border-2 border-black rounded-none shadow-none focus:ring-0">
                         <div className="flex items-center gap-3">
