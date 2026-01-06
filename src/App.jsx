@@ -281,16 +281,16 @@ function App() {
 
                 {/* The Dock - Control bar at bottom */}
                 <div className="shrink-0 border-t-2 border-black flex items-center h-7">
-                  <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-7 h-full border-r-2 border-black" />
-                  <Button onClick={handlePomodoro} variant="ghost" className={cn("w-7 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
-                    <TomatoIcon className="w-3 h-3" />
-                  </Button>
-                  <Button onClick={handleInfinite} variant="ghost" className={cn("w-7 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
-                    <InfinityIcon className="w-3 h-3" />
-                  </Button>
                   <div style={jetBrainsStyle} className="flex-1 flex items-center justify-center font-bold text-lg tracking-widest">
                     {formatTime(timeLeft)}
                   </div>
+                  <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-7 h-full border-l-2 border-black" />
+                  <Button onClick={handlePomodoro} variant="ghost" className={cn("w-7 h-full border-l-2 border-black rounded-none transition-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
+                    <TomatoIcon className="w-3 h-3" />
+                  </Button>
+                  <Button onClick={handleInfinite} variant="ghost" className={cn("w-7 h-full rounded-none transition-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
+                    <InfinityIcon className="w-3 h-3" />
+                  </Button>
                 </div>
               </TabsContent>
 
