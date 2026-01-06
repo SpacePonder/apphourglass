@@ -283,8 +283,8 @@ function App() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="projects" className="m-0 px-6 pb-6 pt-0 h-[400px] overflow-y-auto">
-                <div className="border-b-4 border-black pb-2 mb-4 mt-6">
+              <TabsContent value="projects" className="m-0 px-6 pb-6 pt-6 h-full overflow-y-auto">
+                <div className="border-b-4 border-black pb-2 mb-4">
                   <h2 style={jetBrainsStyle} className="text-2xl font-bold uppercase tracking-tighter">Project Database</h2>
                 </div>
                 <div className="flex gap-2 mb-4">
@@ -307,8 +307,8 @@ function App() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="logs" className="m-0 px-6 pb-6 pt-0 h-[400px] overflow-y-auto">
-                <div className="border-b-4 border-black pb-2 mb-4 mt-6">
+              <TabsContent value="logs" className="m-0 px-6 pb-6 pt-6 h-full overflow-y-auto">
+                <div className="border-b-4 border-black pb-2 mb-4">
                   <h2 style={jetBrainsStyle} className="text-2xl font-bold uppercase tracking-tighter">Session Logs</h2>
                 </div>
                 <div className="space-y-4">
