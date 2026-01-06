@@ -271,23 +271,24 @@ function App() {
                   {notification && <span style={jetBrainsStyle} className="text-xs font-bold uppercase bg-black text-white px-3 py-1">{notification}</span>}
                 </div>
 
-                <div className="border-2 border-black flex items-center shrink-0 h-14 mt-auto">
-                  <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-14 h-full border-r-2 border-black" />
-                  <Button onClick={handlePomodoro} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
-                    <TomatoIcon className="w-6 h-6" />
-                  </Button>
-                  <Button onClick={handleInfinite} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
-                    <InfinityIcon className="w-6 h-6" />
-                  </Button>
-                  <div style={jetBrainsStyle} className="flex-1 flex items-center justify-center font-bold text-3xl tracking-widest">
-                    {formatTime(timeLeft)}
+                <div className="mt-auto">
+                  <div className="text-right pr-2 mb-2 pointer-events-none">
+                    <span style={jetBrainsStyle} className="text-[9px] font-bold text-gray-200 uppercase tracking-widest">
+                      V6.1.6-STABLE
+                    </span>
                   </div>
-                </div>
-
-                <div className="absolute bottom-1 right-2 pointer-events-none">
-                  <span style={jetBrainsStyle} className="text-[9px] font-bold text-gray-200 uppercase tracking-widest">
-                    V6.1.6-STABLE
-                  </span>
+                  <div className="border-2 border-black flex items-center shrink-0 h-14">
+                    <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-14 h-full border-r-2 border-black" />
+                    <Button onClick={handlePomodoro} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
+                      <TomatoIcon className="w-6 h-6" />
+                    </Button>
+                    <Button onClick={handleInfinite} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
+                      <InfinityIcon className="w-6 h-6" />
+                    </Button>
+                    <div style={jetBrainsStyle} className="flex-1 flex items-center justify-center font-bold text-3xl tracking-widest">
+                      {formatTime(timeLeft)}
+                    </div>
+                  </div>
                 </div>
               </TabsContent>
 
