@@ -233,7 +233,7 @@ function App() {
             </TabsList>
 
             <div className="flex-1 overflow-hidden relative">
-              <TabsContent value="timer" className="h-full m-0 p-6 flex flex-col gap-4 pb-8 relative">
+              <TabsContent value="timer" className="h-full m-0 p-6 flex flex-col gap-[14px] pb-8 relative mb-2">
                 <div className="border-2 border-black p-3 shrink-0">
                   <label style={jetBrainsStyle} className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-500">Target Protocol</label>
                   <Select value={selectedProject} onValueChange={setSelectedProject}>
