@@ -234,7 +234,7 @@ function App() {
 
             <div className="flex-1 overflow-hidden relative">
               <TabsContent value="timer" className="h-full m-0 p-0 flex flex-col relative">
-                <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-[14px]">
+                <div className="flex-1 overflow-y-auto px-4 py-6 flex flex-col gap-[14px]">
                   <div className="border-2 border-black p-3 shrink-0">
                     <label style={jetBrainsStyle} className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-500">Target Protocol</label>
                     <Select value={selectedProject} onValueChange={setSelectedProject}>
@@ -279,15 +279,16 @@ function App() {
                   </span>
                 </div>
 
-                <div className="shrink-0 border-t-2 border-black flex items-center h-14">
-                  <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-14 h-full border-r-2 border-black" />
-                  <Button onClick={handlePomodoro} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
-                    <TomatoIcon className="w-6 h-6" />
+                {/* The Dock - Control bar at bottom */}
+                <div className="shrink-0 border-t-2 border-black flex items-center h-7">
+                  <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-7 h-full border-r-2 border-black" />
+                  <Button onClick={handlePomodoro} variant="ghost" className={cn("w-7 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
+                    <TomatoIcon className="w-3 h-3" />
                   </Button>
-                  <Button onClick={handleInfinite} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
-                    <InfinityIcon className="w-6 h-6" />
+                  <Button onClick={handleInfinite} variant="ghost" className={cn("w-7 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
+                    <InfinityIcon className="w-3 h-3" />
                   </Button>
-                  <div style={jetBrainsStyle} className="flex-1 flex items-center justify-center font-bold text-3xl tracking-widest">
+                  <div style={jetBrainsStyle} className="flex-1 flex items-center justify-center font-bold text-lg tracking-widest">
                     {formatTime(timeLeft)}
                   </div>
                 </div>
