@@ -46,7 +46,7 @@ const TomatoIcon = ({ className }) => (
 function App() {
   const [activeTab, setActiveTab] = useState('timer');
   const [projects, setProjects] = useState(DEFAULT_PROJECTS);
-  const [selectedProject, setSelectedProject] = useState('Gaming');
+  const [selectedProject, setSelectedProject] = useState('Administrative');
   const [newProjectName, setNewProjectName] = useState('');
   const [newProjectIcon, setNewProjectIcon] = useState('Folder');
   const jetBrainsStyle = { fontFamily: "'JetBrains Mono', monospace" };
@@ -273,7 +273,7 @@ function App() {
                   </div>
                 </div>
 
-                <div className="shrink-0 px-6 py-2 text-right pointer-events-none border-b border-gray-200">
+                <div className="shrink-0 px-6 py-2 text-center pointer-events-none border-b border-gray-200">
                   <span style={jetBrainsStyle} className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
                     V6.1.6-STABLE
                   </span>
@@ -284,10 +284,10 @@ function App() {
                   <div style={jetBrainsStyle} className="flex-1 flex items-center justify-center font-bold text-sm tracking-widest border-r-2 border-black">
                     {formatTime(timeLeft)}
                   </div>
-                  <Button onClick={handleInfinite} variant="ghost" className={cn("flex-1 h-full border-r-2 border-black rounded-none transition-none flex items-center justify-center", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
+                  <Button onClick={handleInfinite} variant="ghost" className={cn("flex-1 h-full border-r-2 border-black rounded-none transition-colors flex items-center justify-center cursor-pointer hover:opacity-75", sessionType === 'infinite' ? "bg-black text-white" : "bg-white hover:bg-gray-100")}>
                     <InfinityIcon className="w-6 h-6" />
                   </Button>
-                  <Button onClick={handlePomodoro} variant="ghost" className={cn("flex-1 h-full border-r-2 border-black rounded-none transition-none flex items-center justify-center", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
+                  <Button onClick={handlePomodoro} variant="ghost" className={cn("flex-1 h-full border-r-2 border-black rounded-none transition-colors flex items-center justify-center cursor-pointer hover:opacity-75", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white hover:bg-gray-100")}>
                     <TomatoIcon className="w-6 h-6" />
                   </Button>
                   <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="flex-1 h-full" />
