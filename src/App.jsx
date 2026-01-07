@@ -21,7 +21,7 @@ const ICON_MAP = {
   'Archive': Archive, 'Bike': Bike, 'Car': Car, 'Cloud': Cloud, 'DollarSign': DollarSign,
   'Gift': Gift, 'Home': Home, 'Key': Key, 'Lock': Lock, 'Mail': Mail,
   'MapPin': MapPin, 'Phone': Phone, 'Printer': Printer, 'ShoppingCart': ShoppingCart,
-  'Tool': Tool, 'Truck': Truck, 'Umbrella': Umbrella, 'User': User, 'Watch': Watch
+  'Tool': Tool, 'Truck': Truck, 'Umbrella': Umbrella, 'User': User, 'Car': Car
 };
 
 const DEFAULT_PROJECTS = [
@@ -46,7 +46,7 @@ const TomatoIcon = ({ className }) => (
 function App() {
   const [activeTab, setActiveTab] = useState('timer');
   const [projects, setProjects] = useState(DEFAULT_PROJECTS);
-  const [selectedProject, setSelectedProject] = useState('Gaming');
+  const [selectedProject, setSelectedProject] = useState('Administrative');
   const [newProjectName, setNewProjectName] = useState('');
   const [newProjectIcon, setNewProjectIcon] = useState('Folder');
   const jetBrainsStyle = { fontFamily: "'JetBrains Mono', monospace" };
@@ -72,6 +72,14 @@ function App() {
         const parsed = JSON.parse(savedLogs);
         if (Array.isArray(parsed)) setLogs(parsed);
       } catch (e) { setLogs([]); }
+    } else {
+      const sampleLogs = [
+        { id: 1704067500000, project: 'Gaming', type: 'INFINITE SESSION', startTime: '12:45', duration: '0:05', date: '02/01/2025', timestamp: 1704067500000, notes: '' },
+        { id: 1704068000000, project: 'Gaming', type: 'INFINITE SESSION', startTime: '13:00', duration: '0:32', date: '02/01/2025', timestamp: 1704068000000, notes: '' },
+        { id: 1704069000000, project: 'Administrative', type: 'POMODORO SESSION', startTime: '13:30', duration: '25:00', date: '02/01/2025', timestamp: 1704069000000, notes: '' },
+        { id: 1703980800000, project: 'Space Science Lab', type: 'POMODORO SESSION', startTime: '10:00', duration: '25:00', date: '01/01/2025', timestamp: 1703980800000, notes: '' }
+      ];
+      setLogs(sampleLogs);
     }
   }, []);
 
@@ -212,11 +220,11 @@ function App() {
         <div className="w-full max-w-[360px] h-fit border-4 border-black bg-white flex flex-col relative overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex flex-col h-full">
             <TabsList className="grid w-full grid-cols-3 bg-transparent border-b-2 border-black h-14 shrink-0">
-              {['timer', 'logs', 'projects'].map(tab => (
-                <TabsTrigger 
-                  key={tab} 
-                  value={tab} 
-                  style={jetBrainsStyle} 
+              {['Timer', 'Logs', 'Proj'].map(tab => (
+                <TabsTrigger
+                  key={tab.toLowerCase()}
+                  value={tab.toLowerCase()}
+                  style={jetBrainsStyle}
                   className="h-full uppercase font-bold text-sm data-[state=active]:bg-black data-[state=active]:text-white rounded-none border-r-2 last:border-r-0 border-black transition-none"
                 >
                   {tab}
@@ -225,66 +233,68 @@ function App() {
             </TabsList>
 
             <div className="flex-1 overflow-hidden relative">
-              <TabsContent value="timer" className="h-full m-0 p-6 flex flex-col gap-4 pb-8 relative">
-                <div className="border-2 border-black p-3 shrink-0">
-                  <label style={jetBrainsStyle} className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-500">Target Protocol</label>
-                  <Select value={selectedProject} onValueChange={setSelectedProject}>
-                    <SelectTrigger className="w-full h-10 border-2 border-black rounded-none shadow-none focus:ring-0">
-                      <div className="flex items-center gap-3">
-                        <div className="p-1 bg-black text-white"><CurrentProjectIcon className="w-3 h-3" /></div>
-                        <span style={jetBrainsStyle} className="font-bold text-sm uppercase truncate">{currentProjectObj.name}</span>
-                      </div>
-                    </SelectTrigger>
-                    <SelectContent className="border-2 border-black rounded-none shadow-none bg-white max-h-[300px] z-[100]">
-                      {projects.map(p => {
-                        const Icon = ICON_MAP[p.icon] || Folder;
-                        return (
-                          <SelectItem key={p.id} value={p.name} className="uppercase font-bold cursor-pointer">
-                            <div className="flex items-center gap-2"><Icon className="w-4 h-4" /><span style={jetBrainsStyle}>{p.name}</span></div>
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectContent>
-                  </Select>
-                </div>
+              <TabsContent value="timer" className="h-full m-0 p-0 flex flex-col relative">
+                <div className="flex-1 overflow-y-auto px-4 py-6 flex flex-col gap-[14px]">
+                  <div className="border-2 border-black p-3 shrink-0">
+                    <label style={jetBrainsStyle} className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-500">Proj</label>
+                    <Select value={selectedProject} onValueChange={setSelectedProject}>
+                      <SelectTrigger className="w-full h-10 border-2 border-black rounded-none shadow-none focus:ring-0">
+                        <div className="flex items-center gap-3">
+                          <div className="p-1 bg-black text-white"><CurrentProjectIcon className="w-3 h-3" /></div>
+                          <span style={jetBrainsStyle} className="font-bold text-sm uppercase truncate">{currentProjectObj.name}</span>
+                        </div>
+                      </SelectTrigger>
+                      <SelectContent className="border-2 border-black rounded-none shadow-none bg-white max-h-[300px] z-[100]">
+                        {projects.map(p => {
+                          const Icon = ICON_MAP[p.icon] || Folder;
+                          return (
+                            <SelectItem key={p.id} value={p.name} className="uppercase font-bold cursor-pointer">
+                              <div className="flex items-center gap-2"><Icon className="w-4 h-4" /><span style={jetBrainsStyle}>{p.name}</span></div>
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-                <div className="border-2 border-black p-3 flex flex-col shrink-0">
-                  <label style={jetBrainsStyle} className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-500">Session Data</label>
-                  <Textarea 
-                    value={notes} 
-                    onChange={e => setNotes(e.target.value)} 
-                    style={jetBrainsStyle}
-                    className="w-full border-2 border-black rounded-none resize-none text-xs h-24 p-2 focus-visible:ring-0 shadow-none" 
-                    placeholder="[INSERT NOTES]" 
-                  />
-                </div>
+                  <div className="border-2 border-black p-3 flex flex-col shrink-0">
+                    <label style={jetBrainsStyle} className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-500">Session Data</label>
+                    <Textarea
+                      value={notes}
+                      onChange={e => setNotes(e.target.value)}
+                      style={jetBrainsStyle}
+                      className="w-full border-2 border-black rounded-none resize-none text-xs h-24 p-2 focus-visible:ring-0 shadow-none"
+                      placeholder="[INSERT NOTES]"
+                    />
+                  </div>
 
-                <div className="border-2 border-black flex items-center shrink-0 h-14">
-                  <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-14 h-full border-r-2 border-black" />
-                  <Button onClick={handlePomodoro} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
-                    <TomatoIcon className="w-6 h-6" />
-                  </Button>
-                  <Button onClick={handleInfinite} variant="ghost" className={cn("w-14 h-full border-r-2 border-black rounded-none transition-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
-                    <InfinityIcon className="w-6 h-6" />
-                  </Button>
-                  <div style={jetBrainsStyle} className="flex-1 flex items-center justify-center font-bold text-3xl tracking-widest">
-                    {formatTime(timeLeft)}
+                  <div className="text-center h-8 shrink-0 flex items-center justify-center">
+                    {notification && <span style={jetBrainsStyle} className="text-xs font-bold uppercase bg-black text-white px-3 py-1">{notification}</span>}
                   </div>
                 </div>
 
-                <div className="text-center h-8 shrink-0 flex items-center justify-center">
-                  {notification && <span style={jetBrainsStyle} className="text-xs font-bold uppercase bg-black text-white px-3 py-1">{notification}</span>}
-                </div>
-
-                <div className="absolute bottom-1 right-2 pointer-events-none">
-                  <span style={jetBrainsStyle} className="text-[9px] font-bold text-gray-800 uppercase tracking-widest">
+                <div className="shrink-0 px-6 py-2 text-center pointer-events-none border-b border-gray-200">
+                  <span style={jetBrainsStyle} className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
                     V6.1.6-STABLE
                   </span>
                 </div>
+
+                {/* The Dock - Control bar at bottom */}
+                <div className="shrink-0 border-t-2 border-black flex items-center h-7">
+                  <div style={jetBrainsStyle} className="flex-1 flex items-center justify-center font-bold text-sm tracking-widest border-r-2 border-black">
+                    {formatTime(timeLeft)}
+                  </div>
+                  <Button onClick={handleInfinite} variant="ghost" className={cn("flex-1 h-full border-r-2 border-black rounded-none transition-colors flex items-center justify-center cursor-pointer hover:opacity-75", sessionType === 'infinite' ? "bg-black text-white" : "bg-white hover:bg-gray-100")}>
+                    <InfinityIcon className="w-6 h-6" />
+                  </Button>
+                  <Button onClick={handlePomodoro} variant="ghost" className={cn("flex-1 h-full border-r-2 border-black rounded-none transition-colors flex items-center justify-center cursor-pointer hover:opacity-75", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white hover:bg-gray-100")}>
+                    <TomatoIcon className="w-6 h-6" />
+                  </Button>
+                  <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="flex-1 h-full" />
+                </div>
               </TabsContent>
 
-              {/* SNUG HEADERS: Changed pt-6 to pt-2 */}
-              <TabsContent value="projects" className="m-1 px-6 pb-6 pt-0 h-[400px] overflow-y-auto">
+              <TabsContent value="projects" className="m-0 px-6 pb-6 pt-6 h-full overflow-y-auto">
                 <div className="border-b-4 border-black pb-2 mb-4">
                   <h2 style={jetBrainsStyle} className="text-2xl font-bold uppercase tracking-tighter">Project Database</h2>
                 </div>
@@ -308,34 +318,40 @@ function App() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="logs" className="m-0 px-6 pb-6 pt-0 h-[400px] overflow-y-auto">
+              <TabsContent value="logs" className="m-0 px-6 pb-6 pt-6 h-full overflow-y-auto">
                 <div className="border-b-4 border-black pb-2 mb-4">
                   <h2 style={jetBrainsStyle} className="text-2xl font-bold uppercase tracking-tighter">Session Logs</h2>
                 </div>
-                <div className="space-y-4">
-                  {Object.entries(groupedLogs).map(([date, dateLogs]) => (
-                    <div key={date}>
-                      <div style={jetBrainsStyle} className="bg-black text-white text-[10px] font-bold px-2 py-1 mb-2 inline-block uppercase">{date}</div>
-                      {dateLogs.map(log => (
-                        <div key={log.id} className="border-2 border-black p-2 mb-2 bg-white relative group">
-                          <div className="flex justify-between font-bold text-sm uppercase">
-                            <span style={jetBrainsStyle}>{log.project}</span>
-                            <span style={jetBrainsStyle}>{log.duration}</span>
+                {logsWithStreaks.length === 0 ? (
+                  <div className="flex items-center justify-center h-64 text-center">
+                    <p style={jetBrainsStyle} className="text-sm uppercase text-gray-500">No session logs yet<br/>Complete a session to start tracking</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {Object.entries(groupedLogs).map(([date, dateLogs]) => (
+                      <div key={date}>
+                        <div style={jetBrainsStyle} className="bg-black text-white text-[10px] font-bold px-2 py-1 mb-2 inline-block uppercase">{date}</div>
+                        {dateLogs.map(log => (
+                          <div key={log.id} className="border-2 border-black p-2 mb-2 bg-white relative group">
+                            <div className="flex justify-between font-bold text-sm uppercase">
+                              <span style={jetBrainsStyle}>{log.project}</span>
+                              <span style={jetBrainsStyle}>{log.duration}</span>
+                            </div>
+                            <div style={jetBrainsStyle} className="text-[10px] uppercase mt-1 flex items-center gap-2">
+                              <span className={cn("px-1.5 py-0.5 border border-black font-bold", log.type === 'POMODORO SESSION' ? "bg-black text-white" : "bg-white text-black")}>
+                                {log.type}
+                              </span>
+                              <span className="text-gray-500">{log.startTime}</span>
+                            </div>
+                            <Button variant="ghost" size="icon" className="absolute -top-2 -right-2 bg-white border border-black rounded-full opacity-0 group-hover:opacity-100 h-6 w-6" onClick={() => deleteLog(log.id)}>
+                              <Trash2 className="w-3 h-3" />
+                            </Button>
                           </div>
-                          <div style={jetBrainsStyle} className="text-[10px] uppercase mt-1 flex items-center gap-2">
-                            <span className={cn("px-1.5 py-0.5 border border-black font-bold", log.type === 'POMODORO SESSION' ? "bg-black text-white" : "bg-white text-black")}>
-                              {log.type}
-                            </span>
-                            <span className="text-gray-500">{log.startTime}</span>
-                          </div>
-                          <Button variant="ghost" size="icon" className="absolute -top-2 -right-2 bg-white border border-black rounded-full opacity-0 group-hover:opacity-100 h-6 w-6" onClick={() => deleteLog(log.id)}>
-                            <Trash2 className="w-3 h-3" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </TabsContent>
             </div>
           </Tabs>

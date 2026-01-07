@@ -1,14 +1,13 @@
-
 import React from 'react';
 import { Hourglass as HourglassIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export const Hourglass = ({ isRunning, onClick, className }) => {
   return (
-    <button 
+    <button
       onClick={onClick}
       className={cn(
-        "group relative flex items-center justify-center hover:bg-gray-50 transition-colors", 
+        "group relative flex items-center justify-center transition-colors cursor-pointer hover:opacity-75",
         className
       )}
       aria-label={isRunning ? "Finish Session" : "Start Session"}
