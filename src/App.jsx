@@ -21,7 +21,7 @@ const ICON_MAP = {
   'Archive': Archive, 'Bike': Bike, 'Car': Car, 'Cloud': Cloud, 'DollarSign': DollarSign,
   'Gift': Gift, 'Home': Home, 'Key': Key, 'Lock': Lock, 'Mail': Mail,
   'MapPin': MapPin, 'Phone': Phone, 'Printer': Printer, 'ShoppingCart': ShoppingCart,
-  'Tool': Tool, 'Truck': Truck, 'Umbrella': Umbrella, 'User': User, 'Watch': Car
+  'Tool': Tool, 'Truck': Truck, 'Umbrella': Umbrella, 'User': User, 'Car': Car
 };
 
 const DEFAULT_PROJECTS = [
