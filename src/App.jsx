@@ -284,13 +284,13 @@ function App() {
                   <div style={jetBrainsStyle} className="flex-1 flex items-center justify-center font-bold text-lg tracking-widest">
                     {formatTime(timeLeft)}
                   </div>
-                  <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-7 h-full border-l-2 border-black" />
                   <Button onClick={handlePomodoro} variant="ghost" className={cn("w-7 h-full border-l-2 border-black rounded-none transition-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
                     <TomatoIcon className="w-3 h-3" />
                   </Button>
-                  <Button onClick={handleInfinite} variant="ghost" className={cn("w-7 h-full rounded-none transition-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
+                  <Button onClick={handleInfinite} variant="ghost" className={cn("w-7 h-full border-l-2 border-black rounded-none transition-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
                     <InfinityIcon className="w-3 h-3" />
                   </Button>
+                  <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-7 h-full border-l-2 border-black" />
                 </div>
               </TabsContent>
 
