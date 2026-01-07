@@ -285,10 +285,10 @@ function App() {
                     {formatTime(timeLeft)}
                   </div>
                   <Button onClick={handlePomodoro} variant="ghost" className={cn("w-7 h-full border-l-2 border-black rounded-none transition-none", sessionType === 'pomodoro' ? "bg-black text-white" : "bg-white")}>
-                    <TomatoIcon className="w-3 h-3" />
+                    <TomatoIcon className="w-4 h-4" />
                   </Button>
                   <Button onClick={handleInfinite} variant="ghost" className={cn("w-7 h-full border-l-2 border-black rounded-none transition-none", sessionType === 'infinite' ? "bg-black text-white" : "bg-white")}>
-                    <InfinityIcon className="w-3 h-3" />
+                    <InfinityIcon className="w-4 h-4" />
                   </Button>
                   <Hourglass isRunning={isRunning} onClick={handleHourglassClick} className="w-7 h-full border-l-2 border-black" />
                 </div>
